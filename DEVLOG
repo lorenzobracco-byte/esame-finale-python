@@ -1,0 +1,20 @@
+# Devlog di Progetto - Password Evaluator
+
+Questo diario di bordo documenta le scelte architetturali, le sfide affrontate e le soluzioni implementate durante lo sviluppo del sistema.
+
+### Fase 1: Definizione dell'Architettura e Polimorfismo
+- **Obiettivo:** Evitare una catena monolitica di costrutti `if/else` all'interno del validatore.
+- **Scelta di Design:** Implementata la classe base astratta `Regola`. Ogni vincolo è una classe separata. Questo approccio estendibile permette di aggiungere nuove regole (es. controllo basato su dizionari di parole) creando una nuova sottoclasse senza dover modificare la logica core della classe `Valutatore`.
+- **Esito:** Struttura ad oggetti pulita e disaccoppiata.
+
+### Fase 2: Analisi dell'Entropia e Aspetti Matematici
+- **Obiettivo:** Fornire una metrica oggettiva indipendente dalle regole aziendali fisse.
+- **Implementazione:** Scritto il modulo `entropia.py` per calcolare sia l'entropia dello spazio delle password (basata sul set di caratteri utilizzato) sia l'entropia di informazione pura. Questo ha permesso di evidenziare come password lunghe ma ripetitive abbiano in realtà una robustezza reale bassissima.
+
+### Fase 3: Estensione Avanzata con HIBP & Gestione Privacy
+- **Obiettivo:** Integrare un controllo in tempo reale sulle password compromesse senza esporre le credenziali dell'utente.
+- **Soluzione:** Sviluppato `hibp_client.py`. Invece di inviare la password in chiaro, viene calcolato l'hash SHA-1. Viene implementato il protocollo di **K-Anonimato**: si inviano all'API solo i primi 5 caratteri esadecimali. La risposta del server contiene tutti i suffissi di hash compromessi che iniziano con quel prefisso; il confronto finale e decisivo avviene localmente in modo totalmente sicuro e privato.
+
+### Fase 4: Testing e Validazione
+- **Obiettivo:** Garantire la stabilità del codice.
+- **Soluzione:** Predisposti test unitari con il framework standard `unittest` per isolare il comportamento di ciascuna regola ed evitare regressioni durante l'ottimizzazione del codice.
