@@ -1,20 +1,12 @@
-# Devlog di Progetto - Password Evaluator
+Devlog
+Settimana 1 — 29/06/2026
+Durante questa settimana abbiamo definito la struttura del progetto e iniziato lo sviluppo del valutatore di password. Abbiamo deciso di organizzare il codice in più classi invece di inserire tutti i controlli nello stesso file. Abbiamo creato la classe astratta Regola, dalla quale derivano le varie verifiche (lunghezza, varietà dei caratteri e pattern comuni). La parte che ci ha richiesto più tempo è stata capire come rendere il codice facilmente estendibile senza dover modificare continuamente il valutatore principale. Ci siamo divisi il lavoro tra progettazione delle classi e implementazione delle prime regole.
 
-Questo diario di bordo documenta le scelte architetturali, le sfide affrontate e le soluzioni implementate durante lo sviluppo del sistema.
+Settimana 2 — 06/07/2026
+Abbiamo completato il sistema di valutazione aggiungendo il calcolo dell'entropia della password e il punteggio finale. Successivamente abbiamo iniziato a integrare il controllo delle password compromesse utilizzando l'API di Have I Been Pwned. Abbiamo studiato il funzionamento del protocollo K-Anonymity e deciso di utilizzare l'hash SHA-1 per non inviare mai la password in chiaro. Durante i test abbiamo corretto alcuni errori nel calcolo dei punteggi e nella gestione dei messaggi restituiti all'utente.
 
-### Fase 1: Definizione dell'Architettura e Polimorfismo
-- **Obiettivo:** Evitare una catena monolitica di costrutti `if/else` all'interno del validatore.
-- **Scelta di Design:** Implementata la classe base astratta `Regola`. Ogni vincolo è una classe separata. Questo approccio estendibile permette di aggiungere nuove regole (es. controllo basato su dizionari di parole) creando una nuova sottoclasse senza dover modificare la logica core della classe `Valutatore`.
-- **Esito:** Struttura ad oggetti pulita e disaccoppiata.
+Settimana 3 — 13/07/2026 - 18/07/2026
+Negli ultimi giorni abbiamo rifinito il progetto e verificato che tutti i moduli funzionassero insieme. Abbiamo eseguito diversi test con password differenti per controllare il comportamento delle varie regole e correggere gli ultimi bug. Infine abbiamo sistemato il codice, migliorato l'organizzazione dei file e preparato il progetto per la consegna.
 
-### Fase 2: Analisi dell'Entropia e Aspetti Matematici
-- **Obiettivo:** Fornire una metrica oggettiva indipendente dalle regole aziendali fisse.
-- **Implementazione:** Scritto il modulo `entropia.py` per calcolare sia l'entropia dello spazio delle password (basata sul set di caratteri utilizzato) sia l'entropia di informazione pura. Questo ha permesso di evidenziare come password lunghe ma ripetitive abbiano in realtà una robustezza reale bassissima.
-
-### Fase 3: Estensione Avanzata con HIBP & Gestione Privacy
-- **Obiettivo:** Integrare un controllo in tempo reale sulle password compromesse senza esporre le credenziali dell'utente.
-- **Soluzione:** Sviluppato `hibp_client.py`. Invece di inviare la password in chiaro, viene calcolato l'hash SHA-1. Viene implementato il protocollo di **K-Anonimato**: si inviano all'API solo i primi 5 caratteri esadecimali. La risposta del server contiene tutti i suffissi di hash compromessi che iniziano con quel prefisso; il confronto finale e decisivo avviene localmente in modo totalmente sicuro e privato.
-
-### Fase 4: Testing e Validazione
-- **Obiettivo:** Garantire la stabilità del codice.
-- **Soluzione:** Predisposti test unitari con il framework standard `unittest` per isolare il comportamento di ciascuna regola ed evitare regressioni durante l'ottimizzazione del codice.
+Bilancio finale
+Il progetto ci ha permesso di applicare i principi della programmazione orientata agli oggetti realizzando un'applicazione modulare e facilmente estendibile. La parte più interessante è stata l'integrazione con Have I Been Pwned, perché abbiamo imparato come verificare se una password è stata compromessa senza compromettere la privacy dell'utente grazie al protocollo K-Anonymity. Siamo soddisfatti della struttura raggiunta e, con più tempo, avremmo aggiunto altre regole di controllo, una semplice interfaccia grafica e una suite di test automatizzati più completa.
