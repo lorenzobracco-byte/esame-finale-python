@@ -13,7 +13,7 @@ Assicurati di avere installato **Python 3.10** o superiore e il gestore di pacch
 
 ### 2. Clonare il Repository ed entrare nella cartella
 ```bash
-git clone <url-del-repository> password-evaluator
+git clone <https://github.com/lorenzobracco-byte/esame-finale-python> password-evaluator
 cd password-evaluator
 ```
 
